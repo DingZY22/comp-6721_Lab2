@@ -14,6 +14,8 @@ public class InteriorNode extends KdNode {
 		left = null;
 		right = null;
 		
+		
+		
 	}
 	
 	public int getAxis() {
