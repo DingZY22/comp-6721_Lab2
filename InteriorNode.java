@@ -21,6 +21,8 @@ public class InteriorNode extends KdNode {
 	public int getAxis() {
 		
 		return axis;
+		
+		
 	}
 	
 	public int getNextAxis(int depth) {
