@@ -71,7 +71,7 @@ public class Point {
 	public String toString() {
 		String s = "";
 		for (int i = 0; i < coordinates.length; ++i) {
-			s = s + coordinates[i] + " ";
+			s = "(" + s + coordinates[i] + ","+")";
 		}
 		return s;
 	}

@@ -7,18 +7,59 @@ import java.util.*;
 public class KdTree {
 
 	private static int kd_depth;
+	private static final int BlockSize = 100;
 	private KdNode kd_root;
-	private int kd_count;
-	private ArrayList<KdNode> Target = new ArrayList<KdNode>(100);
+	private int kd_count = 0;
+	private ArrayList<KdNode> Target = new ArrayList<KdNode>(BlockSize);
 	private KdNode sp;
-	
-	
+
 
 	public KdTree(int k) {
 
 		kd_depth = k;		
-		kd_root = new InteriorNode(1,500);
-		kd_count = 1;
+		kd_root = new InteriorNode((0 + 1) % k,500);
+		kd_count ++;
+
+		construct(this.kd_root,500);
+	}
+
+	public void construct(KdNode root,double iniValue) {
+
+		KdNode n = root;
+
+		int current_axis = n.getAxis();		
+		int next_axis = n.getNextAxis(kd_depth,0);
+
+
+		//System.out.println("current node is " + n.toString());
+
+		if (current_axis == 0) {
+
+
+			return;
+		}
+
+		if (next_axis == 0) {
+
+			n.setLeft(new leafNode(n));
+			n.setRight(new leafNode(n));
+			kd_count += 2;
+		}
+
+		else {
+			n.setLeft(new InteriorNode(next_axis,iniValue));
+			n.setRight(new InteriorNode(next_axis,iniValue));
+			kd_count += 2;
+		}
+		//System.out.println("current node's left is " + n.getLeft().toString());
+		//System.out.println("current node's right is " + n.getRight().toString());
+		//System.out.println("--------------------");
+
+		if (n.getLeft() != null && n.getRight()!=null) {
+			construct(n.getLeft(),iniValue);
+			construct(n.getRight(),iniValue);
+		}
+
 	}
 
 	public KdNode getRoot() {
@@ -30,24 +71,23 @@ public class KdTree {
 
 		return Target;
 	}
-	
+
 	public KdNode getSp() {
-		
+
 		return sp;
 	}
-	
-	
 
+	public void inrementNodeCounter() {
+		this.kd_count++;
+	}
 
 	public void insertPoint(KdNode trace,Point np){
 
-
 		if (trace.getAxis() == 0) {
-			trace.insert(np);
+			trace.insert(np,this);
 			return;
 		}
 		double value = np.getCoorValue(trace.getAxis());
-
 
 
 		if(value < trace.getValue()) {
@@ -60,26 +100,22 @@ public class KdTree {
 	}
 
 	public KdNode PointSearch(KdNode n,Point p) {
-		
+
 		int currentAxis = n.getAxis();
 		double currentVaule = n.getValue();
 		double pVaule = p.getCoorValue(currentAxis);
-		
+
 		if (currentAxis == 0) {
-			
+
 			if (n.pointInThisNode(p)) {
-				
-				
+
+
 				sp = n;
 				return sp;
-			
-			}
-			
-		
-			
-			
+
+			}			
 		}
-	
+
 		if (pVaule < currentVaule) {
 
 			PointSearch(n.getLeft(),p);
@@ -89,7 +125,7 @@ public class KdTree {
 			PointSearch(n.getRight(),p);
 		}
 
-	   return sp;
+		return sp;
 
 
 	}
@@ -159,6 +195,65 @@ public class KdTree {
 
 	}
 
+	public Point NearestPoint(Point p) {
+
+		boolean changed = true;
+		double d = 3;
+		int r;
+		double nearestDistance = Double.MAX_VALUE;
+		Point nearestPoint1 =new Point(StringtoPoint("(2000.000, 2000.000, 2000.000)"));
+		Point nearestPoint2 = null;
+
+		double ed = 0;
+		double incre = 0;
+
+		do {
+			d = 3 + incre;
+			double[] rangetosearch = {p.getPoints()[0] - d,p.getPoints()[0] + d, p.getPoints()[1] - d,p.getPoints()[1] + d, p.getPoints()[2] - d,p.getPoints()[2] + d};
+			this.RangeSearch(this.getRoot(), rangetosearch);
+			r =  this.getTarget().size();
+			System.out.println("Number of Points Blocks to search are " + r +".");
+
+		
+			ed = 0;
+
+			for (int i=0 ; i<r; i++) {
+
+				for (int j = 0;j < this.getTarget().get(i).getPointCounts();j++) {
+
+					if (p.compareTo(this.getTarget().get(i).getPoints()[j]) == 0) {
+						break;	
+					}
+
+					ed = EuclideanDistance(p,this.getTarget().get(i).getPoints()[j]);				
+					if (ed < nearestDistance) {
+						nearestDistance = ed;
+						nearestPoint2 = this.getTarget().get(i).getPoints()[j];
+					}
+
+				}
+			}
+
+			System.out.println("Nearest Distance is " + nearestDistance);
+			if (nearestPoint2.compareTo(nearestPoint1) == 0) {
+				nearestPoint1 = nearestPoint2;
+				changed =false;
+			}
+			else {
+				nearestPoint1 = nearestPoint2;
+				incre = 2;
+
+			}
+
+
+			
+		}while(changed);
+
+		return nearestPoint1;
+
+
+	}
+
 	public void writeBlocksTofile(KdNode n,FileWriter fw) throws IOException {
 
 		if (n.getAxis() == 0) {
@@ -183,6 +278,46 @@ public class KdTree {
 			printPoints(n.getLeft());
 			printPoints(n.getRight());
 		}
+
+	}
+
+	public double[] StringtoPoint(String line) {
+
+		double[] p = new double[3];
+
+		p[0] = Double.parseDouble(line.substring(1, 9));
+		p[1] = Double.parseDouble(line.substring(11, 19));
+		p[2] = Double.parseDouble(line.substring(21, 29));
+
+		return p;
+
+	}
+
+	public boolean PointAtRange(Point p, double[] r) {
+
+		if (p.getCoorValue(1) >= r[0] && p.getCoorValue(1) <= r[1] &&
+				p.getCoorValue(2) >= r[2] && p.getCoorValue(2) <= r[3] &&
+				p.getCoorValue(3) >= r[4] && p.getCoorValue(3) <= r[5] ) {return true;}
+		else {
+			return false;
+		}
+	}
+
+	public double EuclideanDistance(Point p1, Point p2) {
+
+		double dx = Math.pow(p1.getPoints()[0] - p2.getPoints()[0],2);
+		double dy = Math.pow(p1.getPoints()[1] - p2.getPoints()[1],2);
+		double dz = Math.pow(p1.getPoints()[2] - p2.getPoints()[2],2);
+
+		return (Math.sqrt(dx+dy+dz));
+
+	}
+
+
+	public String toString(){
+
+
+		return ("The KD tree has " + this.kd_count + " number of nodes.");
 
 	}
 
