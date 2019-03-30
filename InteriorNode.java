@@ -12,15 +12,13 @@ public class InteriorNode extends KdNode {
 		axis = a;
 		v = nv;
 		left = null;
-		right = null;
-			
+		right = null;		
 		
 	}
 	
 	public int getAxis() {
 		
 		return axis;
-		
 		
 	}
 	
@@ -40,8 +38,6 @@ public class InteriorNode extends KdNode {
 		}
 		
 		return 0;
-		
-		
 		
 	}
 	

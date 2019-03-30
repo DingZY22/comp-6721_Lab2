@@ -14,12 +14,13 @@ public class leafNode extends KdNode {
 		super();
 		PointsBlockBuffef = new Point[BlockSize];
 		parent = p;	
-		this.axis = 0;
+		axis = 0;
 	}
 
 	public boolean isFull() {
 
-		if (PointsCounter == BlockSize) {return true;}
+		if (PointsCounter == BlockSize) 
+		     {return true;}
 		else {return false;}
 	}
 
@@ -33,11 +34,13 @@ public class leafNode extends KdNode {
 
 		parent = np;
 	}
+
 	@Override
 	public int getAxis() {
 
 		return this.axis;
 	}
+	
 	public void incrementCounts() {
 
 		PointsCounter++;
@@ -80,7 +83,7 @@ public class leafNode extends KdNode {
 			kd1.setRight(l2);//Right new leaf block
 			kt.inrementNodeCounter();
 			kt.inrementNodeCounter();
-			
+
 
 			//redistribute 101 points to these two blocks (p + this)
 			if (p.getCoorValue(kd1.getAxis()) < v1) {
@@ -146,7 +149,7 @@ public class leafNode extends KdNode {
 
 		}
 		else {
-            return ("The axis is "+this.axis+"."+" Empty leaf node with no point");
+			return ("The axis is "+this.axis+"."+" Empty leaf node with no point");
 		}
 
 

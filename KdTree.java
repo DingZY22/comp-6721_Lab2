@@ -1,16 +1,15 @@
 package LAB2;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class KdTree {
 
 	private static int kd_depth;
-	private static final int BlockSize = 100;
 	private KdNode kd_root;
 	private int kd_count = 0;
-	private ArrayList<KdNode> Target = new ArrayList<KdNode>(BlockSize);
+	//private ArrayList<KdNode> Target = new ArrayList<KdNode>(BlockSize);
+	private ArrayList<Point> TargetPoints = new ArrayList<Point>();
 	private KdNode sp;
 
 
@@ -34,7 +33,6 @@ public class KdTree {
 		//System.out.println("current node is " + n.toString());
 
 		if (current_axis == 0) {
-
 
 			return;
 		}
@@ -67,9 +65,14 @@ public class KdTree {
 		return kd_root;
 	}
 
-	public ArrayList<KdNode> getTarget() {
+//	public ArrayList<KdNode> getTarget() {
+//
+//		return Target;
+//	}
 
-		return Target;
+	public ArrayList<Point> getTargetPoints() {
+
+		return TargetPoints;
 	}
 
 	public KdNode getSp() {
@@ -127,7 +130,6 @@ public class KdTree {
 
 		return sp;
 
-
 	}
 
 	public void RangeSearch(KdNode n,double[] range) {
@@ -144,7 +146,13 @@ public class KdTree {
 
 		if (a == 0) {
 
-			Target.add(n);
+			//this.Target.add(n);
+			int nbPoints = n.getPointCounts();
+			for (int i =0; i<nbPoints;i++) {
+				if (n.getPoints()[i].PointAtRange(range)) {
+					this.TargetPoints.add(n.getPoints()[i]);
+				}			
+			}
 		}
 
 		else {
@@ -195,45 +203,40 @@ public class KdTree {
 
 	}
 
-	public Point NearestPoint(Point p) {
+	public Point NearestPoint(Point p,double d) {
 
 		boolean changed = true;
-		double d = 3;
 		int r;
 		double nearestDistance = Double.MAX_VALUE;
-		Point nearestPoint1 =new Point(StringtoPoint("(2000.000, 2000.000, 2000.000)"));
+		Point nearestPoint1 = new Point(this.StringtoPointDouble("(10000000, 10000000, 10000000)"));;
 		Point nearestPoint2 = null;
 
 		double ed = 0;
 		double incre = 0;
 
 		do {
-			d = 3 + incre;
-			double[] rangetosearch = {p.getPoints()[0] - d,p.getPoints()[0] + d, p.getPoints()[1] - d,p.getPoints()[1] + d, p.getPoints()[2] - d,p.getPoints()[2] + d};
+			d += incre;
+			double[] rangetosearch = {p.getPoints()[0] - d,p.getPoints()[0] + d, p.getPoints()[1] - d,p.getPoints()[1] + d, p.getPoints()[2] - d,p.getPoints()[2] + d};			
 			this.RangeSearch(this.getRoot(), rangetosearch);
-			r =  this.getTarget().size();
-			System.out.println("Number of Points Blocks to search are " + r +".");
-
-		
-			ed = 0;
+			r =  this.getTargetPoints().size();
+			System.out.println("Number of Points to search are " + r +".");
 
 			for (int i=0 ; i<r; i++) {
-
-				for (int j = 0;j < this.getTarget().get(i).getPointCounts();j++) {
-
-					if (p.compareTo(this.getTarget().get(i).getPoints()[j]) == 0) {
-						break;	
-					}
-
-					ed = EuclideanDistance(p,this.getTarget().get(i).getPoints()[j]);				
-					if (ed < nearestDistance) {
-						nearestDistance = ed;
-						nearestPoint2 = this.getTarget().get(i).getPoints()[j];
-					}
-
+				
+				System.out.println(this.getTargetPoints().get(i));
+				if (p.compareTo(this.getTargetPoints().get(i)) == 0) {
+					System.out.println("..");
+					continue;	
 				}
-			}
 
+				ed = p.EuclideanDistance(this.getTargetPoints().get(i));				
+				if (ed < nearestDistance) {
+					nearestDistance = ed;
+					nearestPoint2 = this.getTargetPoints().get(i);
+				}
+
+			}
+			System.out.println();
 			System.out.println("Nearest Distance is " + nearestDistance);
 			if (nearestPoint2.compareTo(nearestPoint1) == 0) {
 				nearestPoint1 = nearestPoint2;
@@ -241,17 +244,22 @@ public class KdTree {
 			}
 			else {
 				nearestPoint1 = nearestPoint2;
-				incre = 2;
+				incre = 5;
 
 			}
+			this.clearPoints();
 
 
-			
+			//System.out.println("Nearest point is " + nearestPoint1.toString());
 		}while(changed);
 
 		return nearestPoint1;
 
 
+	}
+	
+	public void clearPoints() {
+		this.TargetPoints.clear();;
 	}
 
 	public void writeBlocksTofile(KdNode n,FileWriter fw) throws IOException {
@@ -280,8 +288,8 @@ public class KdTree {
 		}
 
 	}
-
-	public double[] StringtoPoint(String line) {
+	
+	public double[] StringtoPointDouble(String line) {
 
 		double[] p = new double[3];
 
@@ -293,25 +301,7 @@ public class KdTree {
 
 	}
 
-	public boolean PointAtRange(Point p, double[] r) {
-
-		if (p.getCoorValue(1) >= r[0] && p.getCoorValue(1) <= r[1] &&
-				p.getCoorValue(2) >= r[2] && p.getCoorValue(2) <= r[3] &&
-				p.getCoorValue(3) >= r[4] && p.getCoorValue(3) <= r[5] ) {return true;}
-		else {
-			return false;
-		}
-	}
-
-	public double EuclideanDistance(Point p1, Point p2) {
-
-		double dx = Math.pow(p1.getPoints()[0] - p2.getPoints()[0],2);
-		double dy = Math.pow(p1.getPoints()[1] - p2.getPoints()[1],2);
-		double dz = Math.pow(p1.getPoints()[2] - p2.getPoints()[2],2);
-
-		return (Math.sqrt(dx+dy+dz));
-
-	}
+	
 
 
 	public String toString(){

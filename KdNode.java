@@ -5,7 +5,6 @@ public abstract class KdNode {
 	public double getValue() {
 		return 0;
 	}
-	public abstract int getAxis();
 	
 	public int getNextAxis(int depth,int mode) {
 		return 0;
@@ -41,5 +40,6 @@ public abstract class KdNode {
 	}
 	
 	public abstract String toString();
+	public abstract int getAxis();
 
 }
