@@ -219,11 +219,11 @@ public class KdTree {
 			double[] rangetosearch = {p.getPoints()[0] - d,p.getPoints()[0] + d, p.getPoints()[1] - d,p.getPoints()[1] + d, p.getPoints()[2] - d,p.getPoints()[2] + d};			
 			this.RangeSearch(this.getRoot(), rangetosearch);
 			r =  this.getTargetPoints().size();
-			System.out.println("Number of Points to search are " + r +".");
+			
 
 			for (int i=0 ; i<r; i++) {
 				
-				System.out.println(this.getTargetPoints().get(i));
+				//System.out.println(this.getTargetPoints().get(i));
 				if (p.compareTo(this.getTargetPoints().get(i)) == 0) {
 					System.out.println("..");
 					continue;	
@@ -237,6 +237,7 @@ public class KdTree {
 
 			}
 			System.out.println();
+			System.out.println("Number of Points to search are " + r +".");
 			System.out.println("Nearest Distance is " + nearestDistance);
 			if (nearestPoint2.compareTo(nearestPoint1) == 0) {
 				nearestPoint1 = nearestPoint2;
@@ -300,9 +301,6 @@ public class KdTree {
 		return p;
 
 	}
-
-	
-
 
 	public String toString(){
 

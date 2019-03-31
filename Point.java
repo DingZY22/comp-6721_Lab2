@@ -5,7 +5,6 @@ public class Point {
 	private double[] coordinates;//0 for x, 1 for y, 2 for z
 	private static int dimention;
 
-
 	protected Point(int d) {
 
 		dimention = d;
@@ -95,7 +94,7 @@ public class Point {
 		}
 		return false;
 	}
-	
+
 	public double maxCoor() {
 		double max = coordinates[0];
 		for (int i = 1; i < this.coordinates.length; i++) {
