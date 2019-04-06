@@ -80,7 +80,7 @@ public class KdTree {
 		return sp;
 	}
 
-	public void inrementNodeCounter() {
+	public void incrementNodeCounter() {
 		this.kd_count++;
 	}
 
