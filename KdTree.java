@@ -59,6 +59,9 @@ public class KdTree {
 		}
 
 	}
+	
+	
+	
 
 	public KdNode getRoot() {
 
