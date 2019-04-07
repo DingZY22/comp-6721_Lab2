@@ -84,6 +84,8 @@ public class leafNode extends KdNode {
 			kt.inrementNodeCounter();
 			kt.inrementNodeCounter();
 
+			kt.inrementLeafNodeCounter();
+			kt.inrementLeafNodeCounter();
 
 			//redistribute 101 points to these two blocks (p + this)
 			if (p.getCoorValue(kd1.getAxis()) < v1) {

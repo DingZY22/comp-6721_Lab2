@@ -8,6 +8,7 @@ public class KdTree {
 	private static int kd_depth;
 	private KdNode kd_root;
 	private int kd_count = 0;
+	private int leaf_count = 0;
 	//private ArrayList<KdNode> Target = new ArrayList<KdNode>(BlockSize);
 	private ArrayList<Point> TargetPoints = new ArrayList<Point>();
 	private KdNode sp;
@@ -18,6 +19,7 @@ public class KdTree {
 		kd_depth = k;		
 		kd_root = new InteriorNode((0 + 1) % k,500);
 		kd_count ++;
+		kd_count++;
 
 		construct(this.kd_root,500);
 	}
@@ -28,7 +30,6 @@ public class KdTree {
 
 		int current_axis = n.getAxis();		
 		int next_axis = n.getNextAxis(kd_depth,0);
-
 
 		//System.out.println("current node is " + n.toString());
 
@@ -41,6 +42,8 @@ public class KdTree {
 
 			n.setLeft(new leafNode(n));
 			n.setRight(new leafNode(n));
+
+			leaf_count += 2;
 			kd_count += 2;
 		}
 
@@ -49,6 +52,7 @@ public class KdTree {
 			n.setRight(new InteriorNode(next_axis,iniValue));
 			kd_count += 2;
 		}
+
 		//System.out.println("current node's left is " + n.getLeft().toString());
 		//System.out.println("current node's right is " + n.getRight().toString());
 		//System.out.println("--------------------");
@@ -59,9 +63,6 @@ public class KdTree {
 		}
 
 	}
-	
-	
-	
 
 	public KdNode getRoot() {
 
@@ -85,6 +86,10 @@ public class KdTree {
 
 	public void inrementNodeCounter() {
 		this.kd_count++;
+	}
+
+	public void inrementLeafNodeCounter() {
+		this.leaf_count++;
 	}
 
 	public void insertPoint(KdNode trace,Point np){
@@ -185,7 +190,6 @@ public class KdTree {
 					RangeSearch(n.getLeft(),range);
 
 				}
-
 			}
 			else if(a == 3) {
 				if (cv < lowerZ) {
@@ -199,7 +203,6 @@ public class KdTree {
 					RangeSearch(n.getLeft(),range);
 
 				}
-
 			}
 
 		}
@@ -209,13 +212,14 @@ public class KdTree {
 	public Point NearestPoint(Point p,double d) {
 
 		boolean changed = true;
-		int r;
+		int r = 0;
 		double nearestDistance = Double.MAX_VALUE;
+		double ed = 0;
+		double incre = 0;
+		
 		Point nearestPoint1 = new Point(this.StringtoPointDouble("(10000000, 10000000, 10000000)"));;
 		Point nearestPoint2 = null;
 
-		double ed = 0;
-		double incre = 0;
 
 		do {
 			d += incre;
@@ -307,12 +311,7 @@ public class KdTree {
 
 	public String toString(){
 
-
-		return ("The KD tree has " + this.kd_count + " number of nodes.");
+		return ("The KD tree has " + this.kd_count + " number of nodes. And " + this.leaf_count + " leaf nodes");
 
 	}
-
-
-
-
 }
