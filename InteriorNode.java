@@ -12,9 +12,7 @@ public class InteriorNode extends KdNode {
 		axis = a;
 		v = nv;
 		left = null;
-		right = null;
-		
-		
+		right = null;		
 		
 	}
 	
@@ -22,13 +20,27 @@ public class InteriorNode extends KdNode {
 		
 		return axis;
 		
+	}
+	
+	public int getNextAxis(int depth,int mode) {
+		
+		if (mode == 0) {
+			
+			if (axis % depth == 0) {
+				return 0;
+			}
+			else {
+				return (axis % depth + 1);
+			}		
+		}
+		else if (mode == 1) {
+			return (axis % depth + 1);
+		}
+		
+		return 0;
 		
 	}
 	
-	public int getNextAxis(int depth) {
-		
-		return (axis % depth + 1);
-	}
 	
 	public double getValue() {
 		
@@ -61,38 +73,5 @@ public class InteriorNode extends KdNode {
 		
 	}
 
-
-	@Override
-	public Point[] getPoints() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean insert(Point p) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public KdNode getParent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getPointCounts() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean pointInThisNode(Point p) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	
-	
 
 }

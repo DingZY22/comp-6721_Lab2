@@ -1,21 +1,45 @@
 package LAB2;
 
-
-
 public abstract class KdNode {
 	
-	public abstract double getValue();
-	public abstract int getAxis();
-	public abstract int getNextAxis(int depth);
-	public abstract  void setLeft(KdNode nl);
-	public abstract  void setRight(KdNode nr);
-	public abstract KdNode getRight();
-	public abstract KdNode getLeft();
-	public abstract KdNode getParent();
-	public abstract boolean insert(Point p);
-	public abstract Point[] getPoints();
-	public abstract int getPointCounts();
-	public abstract boolean pointInThisNode(Point p);
+	public double getValue() {
+		return 0;
+	}
+	
+	public int getNextAxis(int depth,int mode) {
+		return 0;
+	}
+	public void setLeft(KdNode nl) {
+		
+	}
+	public void setRight(KdNode nr) {
+		
+	}
+	public KdNode getRight(){
+		return null;
+	}
+	public KdNode getLeft() {
+		return null;
+	}
+	
+	public KdNode getParent() {
+		return null;
+	}
+	
+	public boolean insert(Point p,KdTree kt) {
+		return false;
+	}
+	public Point[] getPoints() {
+		return null;
+	}
+	public int getPointCounts() {
+		return 0;
+	}
+	public boolean pointInThisNode(Point p) {
+		return false;
+	}
+	
 	public abstract String toString();
+	public abstract int getAxis();
 
 }
