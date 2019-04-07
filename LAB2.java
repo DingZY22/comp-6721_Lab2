@@ -6,6 +6,7 @@ public class LAB2 {
 	public static void main(String[] args) throws IOException {
 
 		long startTime = System.currentTimeMillis();
+
 		System.out.println("Start");
 		Scanner key = new Scanner(System.in);
 		
@@ -41,9 +42,8 @@ public class LAB2 {
 		System.out.println(KDT.toString());
 
 		for (int i = 0;i < 10000000;i++) {
-
-			String test = reader.readLine();
-			Point np = new Point(KDT.StringtoPointDouble(test));
+			String line = reader.readLine();
+			Point np = new Point(KDT.StringtoPointDouble(line));
 			KDT.insertPoint(KDT.getRoot(), np);
 
 		}
@@ -112,11 +112,13 @@ public class LAB2 {
 			Point targetPoint = KDT.NearestPoint(samplePoint,sr);
 			System.out.println("Target nearest point is " + targetPoint.toString());
 			long duration =  timeRecorder(startTime);
-			System.out.println("Finish querys. " + "Takes " + duration + " million seconds.");
+			System.out.println("Finish querys. " + "Takes " + duration + " milliseconds.");
+
 		}
 		
 
 	}
+
 
 	public static long timeRecorder(long startTime) {
 

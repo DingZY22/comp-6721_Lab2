@@ -72,7 +72,6 @@ public class Point {
 				this.getCoorValue(3) >= r[4] && this.getCoorValue(3) <= r[5]) {return true;}
 		else {
 			return false;
-
 		}
 	}
 

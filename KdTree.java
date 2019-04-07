@@ -18,7 +18,6 @@ public class KdTree {
 
 		kd_depth = k;		
 		kd_root = new InteriorNode((0 + 1) % k,500);
-		kd_count ++;
 		kd_count++;
 
 		construct(this.kd_root,500);
@@ -53,9 +52,10 @@ public class KdTree {
 			kd_count += 2;
 		}
 
-		//System.out.println("current node's left is " + n.getLeft().toString());
-		//System.out.println("current node's right is " + n.getRight().toString());
-		//System.out.println("--------------------");
+//		System.out.println("current node's left is " + n.getLeft().toString());
+//		System.out.println("current node's right is " + n.getRight().toString());
+//		System.out.println("--------------------");
+
 
 		if (n.getLeft() != null && n.getRight()!=null) {
 			construct(n.getLeft(),iniValue);
@@ -84,11 +84,11 @@ public class KdTree {
 		return sp;
 	}
 
-	public void inrementNodeCounter() {
+	public void incrementNodeCounter() {
 		this.kd_count++;
 	}
-
-	public void inrementLeafNodeCounter() {
+	
+	public void incrementLeafNodeCounter() {
 		this.leaf_count++;
 	}
 
@@ -212,6 +212,7 @@ public class KdTree {
 	public Point NearestPoint(Point p,double d) {
 
 		boolean changed = true;
+
 		int r = 0;
 		double nearestDistance = Double.MAX_VALUE;
 		double ed = 0;
