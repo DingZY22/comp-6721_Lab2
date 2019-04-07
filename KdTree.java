@@ -20,6 +20,9 @@ public class KdTree {
 		kd_root = new InteriorNode(1,500);
 		kd_count = 1;
 	}
+	
+	
+	
 
 	public KdNode getRoot() {
 
