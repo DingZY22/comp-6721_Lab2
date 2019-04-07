@@ -41,6 +41,7 @@ public class KdTree {
 
 			n.setLeft(new leafNode(n));
 			n.setRight(new leafNode(n));
+
 			leaf_count += 2;
 			kd_count += 2;
 		}
@@ -54,6 +55,7 @@ public class KdTree {
 //		System.out.println("current node's left is " + n.getLeft().toString());
 //		System.out.println("current node's right is " + n.getRight().toString());
 //		System.out.println("--------------------");
+
 
 		if (n.getLeft() != null && n.getRight()!=null) {
 			construct(n.getLeft(),iniValue);
@@ -89,7 +91,6 @@ public class KdTree {
 	public void incrementLeafNodeCounter() {
 		this.leaf_count++;
 	}
-
 
 	public void insertPoint(KdNode trace,Point np){
 

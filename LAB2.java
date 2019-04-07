@@ -45,6 +45,7 @@ public class LAB2 {
 			String line = reader.readLine();
 			Point np = new Point(KDT.StringtoPointDouble(line));
 			KDT.insertPoint(KDT.getRoot(), np);
+
 		}
 
 		reader.close();	
@@ -80,6 +81,7 @@ public class LAB2 {
 				System.out.println( KDT.getTargetPoints().get(i).toString());
 			}
 			long duration =  timeRecorder(startTime);
+
 			System.out.println("Finish querys. " + "Takes " + duration + " milliseconds.");
 			System.out.println("Number of points in the range is " + nbPoints + ".");
 		}

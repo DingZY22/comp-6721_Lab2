@@ -84,6 +84,7 @@ public class leafNode extends KdNode {
 			kd1.setLeft(l1);//left new leaf block
 			kd1.setRight(l2);//Right new leaf block
 
+
 			kt.incrementNodeCounter();
 			kt.incrementNodeCounter();
 			kt.incrementLeafNodeCounter();
