@@ -66,7 +66,9 @@ public class leafNode extends KdNode {
 			double v2 = p.getCoorValue(a2);
 			//new interior node
 			KdNode kd1 = new InteriorNode(a1,v1);
+
 			kt.incrementNodeCounter();
+
 			if (v2 < parent.getValue()) {
 				//set new node to parent's left
 				parent.setLeft(kd1);
@@ -81,8 +83,11 @@ public class leafNode extends KdNode {
 
 			kd1.setLeft(l1);//left new leaf block
 			kd1.setRight(l2);//Right new leaf block
+
 			kt.incrementNodeCounter();
 			kt.incrementNodeCounter();
+			kt.incrementLeafNodeCounter();
+			kt.incrementLeafNodeCounter();
 
 
 			//redistribute 101 points to these two blocks (p + this)

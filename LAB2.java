@@ -6,16 +6,19 @@ public class LAB2 {
 	public static void main(String[] args) throws IOException {
 
 		long startTime = System.currentTimeMillis();
-		boolean prgram_loop =true;
+
 		System.out.println("Start");
 		Scanner key = new Scanner(System.in);
-		KdTree KDT = new KdTree(3);	
-		init(KDT);			
+		
+		KdTree KDT = new KdTree(3);
+		memoryRecorder();
+		init(KDT);		
+		memoryRecorder();		
 		long duration = timeRecorder(startTime);
-		System.out.println("Finish constructing the KD tree." + "Takes " + duration + " million seconds.");
+		System.out.println("Finish constructing the KD tree." + "Takes " + duration + " milliseconds.");
 		System.out.println(KDT.toString());
 
-		while(prgram_loop) {		
+		while(true) {
 			System.out.println("1 for range search, 2 for nearest point finding");
 			int type_query = key.nextInt();
 			QueryExectution(KDT,key,type_query);
@@ -24,10 +27,11 @@ public class LAB2 {
 			System.out.println("Stop?");
 			String ans =  key.next();
 			if (ans.equals("yes")) {
-				prgram_loop = false;
+				break;
 			}
-			else {prgram_loop = true;}
+			else {continue;}
 		}
+
 		key.close();
 		System.out.println("End");
 	}
@@ -38,11 +42,9 @@ public class LAB2 {
 		System.out.println(KDT.toString());
 
 		for (int i = 0;i < 10000000;i++) {
-
-			String test = reader.readLine();
-			Point np = new Point(KDT.StringtoPointDouble(test));
+			String line = reader.readLine();
+			Point np = new Point(KDT.StringtoPointDouble(line));
 			KDT.insertPoint(KDT.getRoot(), np);
-
 		}
 
 		reader.close();	
@@ -79,6 +81,7 @@ public class LAB2 {
 			}
 			long duration =  timeRecorder(startTime);
 			System.out.println("Finish querys. " + "Takes " + duration + " milliseconds.");
+			System.out.println("Number of points in the range is " + nbPoints + ".");
 		}
 
 
@@ -108,16 +111,29 @@ public class LAB2 {
 			System.out.println("Target nearest point is " + targetPoint.toString());
 			long duration =  timeRecorder(startTime);
 			System.out.println("Finish querys. " + "Takes " + duration + " milliseconds.");
+
 		}
 		
 
 	}
 
-	public  static long timeRecorder(long startTime) {
+
+	public static long timeRecorder(long startTime) {
 
 		long endTime = System.currentTimeMillis();
 		return (endTime - startTime);
 
+	}
+	
+	public static void memoryRecorder() {
+
+		long totalMemory = Runtime.getRuntime().totalMemory() / (1024 * 1024);
+		long freeMemory = Runtime.getRuntime().freeMemory() / (1024 * 1024);
+		long usedMemory = totalMemory - freeMemory;
+		
+		System.out.println("Total memory : " + totalMemory + "MB" );
+		System.out.println("Free memory : " + freeMemory + "MB");
+		System.out.println("Used memory : " + usedMemory + "MB");
 	}
 
 

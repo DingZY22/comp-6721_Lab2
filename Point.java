@@ -105,7 +105,6 @@ public class Point {
 		return max;
 	}
 
-
 	public String toString() {
 
 		String s = "(" + this.coordinates[0] + ", " + this.coordinates[1] + ", " + this.coordinates[2] + ")";
