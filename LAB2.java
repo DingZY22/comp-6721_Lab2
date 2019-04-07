@@ -78,7 +78,7 @@ public class LAB2 {
 				System.out.println( KDT.getTargetPoints().get(i).toString());
 			}
 			long duration =  timeRecorder(startTime);
-			System.out.println("Finish querys. " + "Takes " + duration + " million seconds.");
+			System.out.println("Finish querys. " + "Takes " + duration + " milliseconds.");
 		}
 
 
@@ -107,7 +107,7 @@ public class LAB2 {
 			Point targetPoint = KDT.NearestPoint(samplePoint,sr);
 			System.out.println("Target nearest point is " + targetPoint.toString());
 			long duration =  timeRecorder(startTime);
-			System.out.println("Finish querys. " + "Takes " + duration + " million seconds.");
+			System.out.println("Finish querys. " + "Takes " + duration + " milliseconds.");
 		}
 		
 
